@@ -51,7 +51,7 @@ namespace DataLoader
                 var mark = br.ReadInt32();
                 if (mark != 0x1080000)
                     throw new FormatException("File should be stated from magix constant 0x1080000");
-                var n = br.ReadInt32();
+                var n = br.ReadInt32().SwapEndianness();
                 if (n != imagesNum)
                     throw new ArgumentOutOfRangeException(nameof(imagesNum), $"Expected {imagesNum} rows but {n} found.");
 
@@ -72,13 +72,13 @@ namespace DataLoader
                 var mark = br.ReadInt32();
                 if (mark != 0x3080000)
                     throw new FormatException("File should be stated from magix constant 0x3080000");
-                var n = br.ReadInt32();
+                var n = br.ReadInt32().SwapEndianness();
                 if (n != imagesNum)
                     throw new ArgumentOutOfRangeException(nameof(imagesNum), $"Expected {imagesNum} images but {n} found.");
-                var rows = br.ReadInt32();
+                var rows = br.ReadInt32().SwapEndianness();
                 if (rows != 28)
                     throw new FormatException($"Invalid file: expected 28 rows per image, but {rows} is found.");
-                var cols = br.ReadInt32();
+                var cols = br.ReadInt32().SwapEndianness();
                 if (cols != 28)
                     throw new FormatException($"Invalid file: expected 28 cols per image, but {cols} is found.");
                 var data = br.ReadBytes(imagesNum * rows * cols);
